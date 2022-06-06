@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, of, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LambdaTask } from '../interfaces/lambdaTask.interface';
 import { ApiResponse } from '../interfaces/taskResponse.interface';
@@ -20,5 +20,31 @@ export class TasksService {
         return response.body?.tasks ?? [];
       })
     );
+  }
+
+  getSingleTask(id: string): Observable<LambdaTask> {
+    const url = `${this.tasksUrl}/${id}`;
+    return this.http.get<ApiResponse>(url).pipe(
+      map((response) => {
+        return response.body;
+      })
+    );
+  }
+
+  addTask(task: LambdaTask) {
+    return this.http.post<ApiResponse>(this.tasksUrl, task);
+  }
+
+  editTask(task: LambdaTask) {
+    const url = `${this.tasksUrl}/${task.id}`;
+    // return this.http.put(url, task, {
+    //   headers: { 'Access-Control-Allow-Origin': '*' },
+    // });
+    return this.http.put(url, task);
+  }
+
+  deleteTask(id: string) {
+    const url = `${this.tasksUrl}/${id}`;
+    return this.http.delete(url);
   }
 }
