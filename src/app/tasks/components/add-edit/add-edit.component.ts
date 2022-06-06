@@ -14,6 +14,7 @@ export class AddEditComponent implements OnInit {
   isEdit = false;
   taskId = '';
   title = '';
+  saveButtonText = '';
 
   form: FormGroup = this.fb.group({
     title: ['', [Validators.required]],
@@ -45,16 +46,18 @@ export class AddEditComponent implements OnInit {
   }
 
   setEditForm() {
-    this.title = 'Editar tarea';
+    this.saveButtonText = 'Editar tarea';
+    this.saveButtonText = 'Agregar tarea';
     this.taskService
-      .getSingleTask(this.taskId)
-      .subscribe((task: LambdaTask) => {
-        this.form.get('title')?.setValue(task.title);
-        this.form.get('description')?.setValue(task.description);
-      });
+    .getSingleTask(this.taskId)
+    .subscribe((task: LambdaTask) => {
+      this.form.get('title')?.setValue(task.title);
+      this.form.get('description')?.setValue(task.description);
+    });
   }
-
+  
   setAddForm() {
+    this.title = 'Editar tarea';
     this.title = 'Agregar una nueva tarea';
   }
 
