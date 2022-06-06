@@ -46,8 +46,8 @@ export class AddEditComponent implements OnInit {
   }
 
   setEditForm() {
+    this.title = 'Editar tarea';
     this.saveButtonText = 'Editar tarea';
-    this.saveButtonText = 'Agregar tarea';
     this.taskService
     .getSingleTask(this.taskId)
     .subscribe((task: LambdaTask) => {
@@ -57,8 +57,8 @@ export class AddEditComponent implements OnInit {
   }
   
   setAddForm() {
-    this.title = 'Editar tarea';
     this.title = 'Agregar una nueva tarea';
+    this.saveButtonText = 'Agregar tarea';
   }
 
   submitForm() {
