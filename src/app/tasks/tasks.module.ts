@@ -1,12 +1,20 @@
-import { NgModule } from '@angular/core';
+// angular
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './components/home/home.component';
-import { AddEditComponent } from './components/add-edit/add-edit.component';
-import { TasksRoutingModule } from './tasks-routing.module';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
+// Custom modules
+import { TasksRoutingModule } from './tasks-routing.module';
+
+// Pipes
+import { BooleanTransformPipe } from './pipes/boolean-transform.pipe';
+
+// Components
+import { HomeComponent } from './components/home/home.component';
+import { AddEditComponent } from './components/add-edit/add-edit.component';
+
 @NgModule({
-  declarations: [HomeComponent, AddEditComponent],
-  imports: [CommonModule, TasksRoutingModule, ReactiveFormsModule],
+  declarations: [HomeComponent, AddEditComponent, BooleanTransformPipe],
+  imports: [CommonModule, ReactiveFormsModule, TasksRoutingModule],
 })
 export class TasksModule {}

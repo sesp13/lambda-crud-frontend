@@ -19,7 +19,7 @@
           {{ task.title }}
         </td>
         <td>{{ task.description }}</td>
-        <td>{{ task.done }}</td>
+        <td>{{ task?.done ?? false | booleanTransform }}</td>
         <td class="buttons-table">
           <button (click)="editTask(task)" class="btn btn-primary">
             Editar tarea

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable, of, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LambdaTask } from '../interfaces/lambdaTask.interface';
-import { ApiResponse } from '../interfaces/taskResponse.interface';
+import { ApiResponse, SimpleResponse } from '../interfaces/responses.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -31,16 +31,13 @@ export class TasksService {
     );
   }
 
-  addTask(task: LambdaTask) {
-    return this.http.post<ApiResponse>(this.tasksUrl, task);
+  addTask(task: LambdaTask): Observable<LambdaTask> {
+    return this.http.post<LambdaTask>(this.tasksUrl, task);
   }
 
   editTask(task: LambdaTask) {
     const url = `${this.tasksUrl}/${task.id}`;
-    // return this.http.put(url, task, {
-    //   headers: { 'Access-Control-Allow-Origin': '*' },
-    // });
-    return this.http.put(url, task);
+    return this.http.put<SimpleResponse>(url, task);
   }
 
   deleteTask(id: string) {

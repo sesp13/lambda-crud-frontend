@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { LambdaTask } from 'src/app/interfaces/lambdaTask.interface';
 import { TasksService } from 'src/app/services/tasks.service';
 
@@ -11,7 +12,11 @@ import { TasksService } from 'src/app/services/tasks.service';
 export class HomeComponent implements OnInit {
   tasks: LambdaTask[] = [];
 
-  constructor(private tasksService: TasksService, private router: Router) {}
+  constructor(
+    private router: Router,
+    private tasksService: TasksService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getTasks();
@@ -33,7 +38,9 @@ export class HomeComponent implements OnInit {
 
   deleteTask(task: LambdaTask) {
     if (task?.id) {
+      this.toastr.success('Tarea eliminada correctamente');
       this.tasksService.deleteTask(task.id).subscribe(console.log);
+      this.getTasks();
     }
   }
 }

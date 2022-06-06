@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { LambdaTask } from 'src/app/interfaces/lambdaTask.interface';
 import { TasksService } from 'src/app/services/tasks.service';
 
@@ -23,7 +24,9 @@ export class AddEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private taskService: TasksService
+    private router: Router,
+    private taskService: TasksService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -61,9 +64,14 @@ export class AddEditComponent implements OnInit {
 
     if (this.isEdit) {
       task.done = this.form.value.done;
-      this.taskService.editTask(task).subscribe(console.log);
+      this.taskService.editTask(task).subscribe((message) => {
+        this.toastr.info('Tarea editada correctamente');
+      });
     } else {
-      this.taskService.addTask(task).subscribe(console.log);
+      this.taskService.addTask(task).subscribe((task: LambdaTask) => {
+        this.toastr.success('Tarea creada correctamente');
+        this.router.navigate(['/edit', task.id]);
+      });
     }
   }
 }
