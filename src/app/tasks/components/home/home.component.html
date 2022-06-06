@@ -1,0 +1,30 @@
+<div class="buttons-pannel">
+  <button class="btn btn-success">Agregar tarea</button>
+</div>
+<main class="mt-5">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Country</th>
+      <th scope="col">Area</th>
+      <th scope="col">Population</th>
+      <th scope="col">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let task of tasks; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        {{ task.title }}
+      </td>
+      <td>{{ task.description }}</td>
+      <td>{{ task.done }}</td>
+      <td class="buttons-table">
+        <button class="btn btn-primary">Edit task</button>
+        <button class="btn btn-danger">Delete Task</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</main>
