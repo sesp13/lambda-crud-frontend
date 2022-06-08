@@ -25,10 +25,7 @@
             <button class="btn btn-secondary">Ver tarea</button>
           </a>
           <button (click)="changeDone(task)" class="btn btn-primary">
-            {{
-              task?.done ?? false
-                | booleanTransform: "Descompletar tarea":"Completar tarea"
-            }}
+            {{ task?.done ? "Descompletar tarea" : "Completar tarea" }}
           </button>
           <button (click)="deleteTask(task)" class="btn btn-danger">
             Eliminar tarea

@@ -34,8 +34,8 @@ export class HomeComponent implements OnInit {
 
   changeDone(task: LambdaTask) {
     if (task?.id) {
+      task.done = task.done === undefined ? false : !task.done;
       this.tasksService.changeDone(task).subscribe(() => {
-        task.done = !task.done;
         const toastMessage = task.done
           ? 'Tarea completada correctamente'
           : 'Tarea descompletada correctamente';
