@@ -49,13 +49,21 @@ export class AddEditComponent implements OnInit {
     this.title = 'Editar tarea';
     this.saveButtonText = 'Editar tarea';
     this.taskService
-    .getSingleTask(this.taskId)
-    .subscribe((task: LambdaTask) => {
-      this.form.get('title')?.setValue(task.title);
-      this.form.get('description')?.setValue(task.description);
-    });
+      .getSingleTask(this.taskId)
+      .subscribe((task: LambdaTask) => {
+        const titleField = this.form.get('title');
+        const descriptionField = this.form.get('description');
+        const doneField = this.form.get('done');
+
+        titleField?.setValue(task.title);
+        descriptionField?.setValue(task.description);
+        doneField?.setValue(task.done);
+
+        titleField?.disable();
+        descriptionField?.disable();
+      });
   }
-  
+
   setAddForm() {
     this.title = 'Agregar una nueva tarea';
     this.saveButtonText = 'Agregar tarea';
@@ -67,9 +75,13 @@ export class AddEditComponent implements OnInit {
 
     if (this.isEdit) {
       task.done = this.form.value.done;
-      this.taskService.editTask(task).subscribe((message) => {
-        this.toastr.info('Tarea editada correctamente');
-      });
+      if (task?.id) {
+        this.taskService
+          .completeTask(task.id, task?.done ?? false)
+          .subscribe((message) => {
+            this.toastr.info('Tarea editada correctamente');
+          });
+      }
     } else {
       this.taskService.addTask(task).subscribe((task: LambdaTask) => {
         this.toastr.success('Tarea creada correctamente');

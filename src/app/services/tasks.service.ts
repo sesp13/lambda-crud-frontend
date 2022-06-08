@@ -35,9 +35,9 @@ export class TasksService {
     return this.http.post<LambdaTask>(this.tasksUrl, task);
   }
 
-  editTask(task: LambdaTask) {
-    const url = `${this.tasksUrl}/${task.id}`;
-    return this.http.put<SimpleResponse>(url, task);
+  completeTask(id: string, done: boolean) {
+    const url = `${this.tasksUrl}/${id}`;
+    return this.http.put<SimpleResponse>(url, { done });
   }
 
   deleteTask(id: string) {

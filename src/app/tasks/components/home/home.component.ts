@@ -39,8 +39,12 @@ export class HomeComponent implements OnInit {
   deleteTask(task: LambdaTask) {
     if (task?.id) {
       this.toastr.success('Tarea eliminada correctamente');
-      this.tasksService.deleteTask(task.id).subscribe(console.log);
-      this.getTasks();
+      this.tasksService
+        .deleteTask(task.id)
+        .pipe()
+        .subscribe((message) => {
+          this.getTasks();
+        });
     }
   }
 }
