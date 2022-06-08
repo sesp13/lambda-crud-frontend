@@ -32,8 +32,16 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/add']);
   }
 
-  editTask(task: LambdaTask) {
-    if (task?.id) this.router.navigate(['/edit', task?.id]);
+  changeDone(task: LambdaTask) {
+    if (task?.id) {
+      this.tasksService.changeDone(task).subscribe(() => {
+        task.done = !task.done;
+        const toastMessage = task.done
+          ? 'Tarea completada correctamente'
+          : 'Tarea descompletada correctamente';
+        this.toastr.success(toastMessage);
+      });
+    }
   }
 
   deleteTask(task: LambdaTask) {

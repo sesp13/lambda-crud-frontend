@@ -18,7 +18,7 @@
         formControlName="description"
       ></textarea>
     </div>
-    <div class="form-group form-check" *ngIf="isEdit">
+    <div class="form-group form-check" *ngIf="isView">
       <input
         class="form-check-input"
         type="checkbox"
@@ -28,8 +28,17 @@
       />
       <label class="form-check-label" for="done"> Completada </label>
     </div>
+    <div class="form-group" *ngIf="!isView">
+      <button class="btn btn-primary">
+        {{ saveButtonText }}
+      </button>
+    </div>
     <div class="form-group">
-      <button class="btn btn-primary">{{ saveButtonText }}</button>
+      <a [routerLink]="['/']">
+        <button class="btn btn-secondary">
+          Volver al menú principal
+        </button>
+      </a>
     </div>
   </form>
 </section>

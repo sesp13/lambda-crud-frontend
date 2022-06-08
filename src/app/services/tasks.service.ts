@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, of, switchMap, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LambdaTask } from '../interfaces/lambdaTask.interface';
 import { ApiResponse, SimpleResponse } from '../interfaces/responses.interface';
@@ -35,9 +35,9 @@ export class TasksService {
     return this.http.post<LambdaTask>(this.tasksUrl, task);
   }
 
-  completeTask(id: string, done: boolean) {
-    const url = `${this.tasksUrl}/${id}`;
-    return this.http.put<SimpleResponse>(url, { done });
+  changeDone(task: LambdaTask) {
+    const url = `${this.tasksUrl}/${task.id}`;
+    return this.http.put<SimpleResponse>(url, task);
   }
 
   deleteTask(id: string) {

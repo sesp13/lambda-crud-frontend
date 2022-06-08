@@ -11,7 +11,7 @@ import { TasksService } from 'src/app/services/tasks.service';
   styleUrls: ['./add-edit.component.scss'],
 })
 export class AddEditComponent implements OnInit {
-  isEdit = false;
+  isView = false;
   taskId = '';
   title = '';
   saveButtonText = '';
@@ -35,9 +35,9 @@ export class AddEditComponent implements OnInit {
       next: (params) => {
         const id = params['id'];
         if (id) {
-          this.isEdit = true;
+          this.isView = true;
           this.taskId = id;
-          this.setEditForm();
+          this.setViewForm();
         } else {
           this.setAddForm();
         }
@@ -45,9 +45,8 @@ export class AddEditComponent implements OnInit {
     });
   }
 
-  setEditForm() {
-    this.title = 'Editar tarea';
-    this.saveButtonText = 'Editar tarea';
+  setViewForm() {
+    this.title = 'Detalles de tarea';
     this.taskService
       .getSingleTask(this.taskId)
       .subscribe((task: LambdaTask) => {
@@ -61,6 +60,7 @@ export class AddEditComponent implements OnInit {
 
         titleField?.disable();
         descriptionField?.disable();
+        doneField?.disable();
       });
   }
 
@@ -73,19 +73,19 @@ export class AddEditComponent implements OnInit {
     const { title, description } = this.form.value;
     const task: LambdaTask = { title, description, id: this.taskId };
 
-    if (this.isEdit) {
-      task.done = this.form.value.done;
-      if (task?.id) {
-        this.taskService
-          .completeTask(task.id, task?.done ?? false)
-          .subscribe((message) => {
-            this.toastr.info('Tarea editada correctamente');
-          });
-      }
+    if (this.isView) {
+      // task.done = this.form.value.done;
+      // if (task?.id) {
+      //   this.taskService
+      //     .changeDone(task.id, task?.done ?? false)
+      //     .subscribe((message) => {
+      //       this.toastr.info('Tarea editada correctamente');
+      //     });
+      // }
     } else {
       this.taskService.addTask(task).subscribe((task: LambdaTask) => {
         this.toastr.success('Tarea creada correctamente');
-        this.router.navigate(['/edit', task.id]);
+        this.router.navigate(['/see', task.id]);
       });
     }
   }
